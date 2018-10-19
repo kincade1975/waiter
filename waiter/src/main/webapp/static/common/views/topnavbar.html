@@ -1,0 +1,54 @@
+<div class="row" ng-controller="TopnavbarController">
+    <nav class="navbar navbar-fixed-top" role="navigation">
+        <div style="float: left;">
+            <h1 style="color: white !important; font-size: 26px !important; margin-top: 14px; margin-left: 20px; font-weight: bold;">m-Konobar</h1>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar">
+        	<ul class="nav navbar-nav" style="margin-left: 100px;">
+        		
+        		<!-- DASHBOARD -->
+	            <li ng-class="{ active: $state.includes('dashboard') }" ng-if="hasPermission(['dashboard'])">
+	                <a ui-sref="dashboard.overview">
+	                    <span class="nav-label">{{ 'MENU_DASHBOARD' | translate }}</span>
+	                </a>
+	            </li>
+	            
+        		<!-- USERS -->
+	            <li ng-class="{ active: $state.includes('users') }" ng-if="hasPermission(['users.read'])">
+	                <a ui-sref="users.overview">
+	                    <span class="nav-label">{{ 'MENU_USERS' | translate }}</span>
+	                </a>
+	            </li>
+	            
+	            <!-- SESSIONS -->
+	            <li ng-class="{ active: $state.includes('sessions') }" ng-if="hasPermission(['sessions'])">
+	                <a ui-sref="sessions.overview">
+	                    <span class="nav-label">{{ 'MENU_SESSIONS' | translate }}</span>
+	                </a>
+	            </li>
+	            
+	            <!-- SETTINGS -->
+	            <li ng-if="hasPermission(['settings'])" ng-class="{active: $state.includes('settings')}" class="dropdown">
+		            <a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="nav-label">{{ 'MENU_SETTINGS' | translate }}</span> <span class="fa fa-angle-down"></span></a>
+	                <ul class="dropdown-menu" role="menu">
+						<li ng-class="{active: $state.is('settings.cities_overview') || $state.is('settings.cities_create') || $state.is('settings.cities_edit')}">
+		                    <a class="app-nav-second-level" ui-sref="settings.cities_overview">{{ 'MENU_CITIES' | translate }}</a>
+		                </li>
+	                </ul>
+	            </li>
+	            
+	            <!-- ORDERS -->
+	            <li ng-class="{ active: $state.includes('orders') }" ng-if="hasPermission(['orders'])">
+	                <a ui-sref="orders.overview">
+	                    <span class="nav-label">{{ 'MENU_ORDERS' | translate }}</span>
+	                </a>
+	            </li>
+	            
+        	</ul>
+        
+	        <ul class="nav navbar-top-links navbar-right">
+	        	<li><a ng-click="logout()"><span class="fa fa-sign-out"></span> {{ 'ODJAVA' | translate }}</a></li>
+	        </ul>
+        </div>
+    </nav>
+</div>

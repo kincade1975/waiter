@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html ng-app="App">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=0.8">
+        
+        <title>m-Konobar</title>
+        
+        <link href="https://fonts.googleapis.com/css?family=Archivo+Narrow" rel="stylesheet">
+        
+        <link rel="stylesheet" type="text/css" href="webjars/inspinia/font-awesome/css/font-awesome.css" />
+        <link rel="stylesheet" type="text/css" href="webjars/inspinia/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="webjars/inspinia/css/animate.css" />
+        <link rel="stylesheet" type="text/css" href="webjars/inspinia/css/plugins/toastr/toastr.min.css" />
+        <link rel="stylesheet" type="text/css" href="webjars/inspinia/css/plugins/iCheck/custom.css" />
+
+		<!-- Bootstrap Chosen -->
+        <link rel="stylesheet" type="text/css" href="webjars/inspinia/css/plugins/chosen/bootstrap-chosen.css" />
+        <link rel="stylesheet" type="text/css" href="webjars/inspinia/css/plugins/chosen/chosen.css" />
+
+		<!-- Date Picker -->
+        <link rel="stylesheet" type="text/css" href="webjars/inspinia/css/plugins/datapicker/angular-datapicker.css" />
+        
+        <!-- DateRange Picker -->
+        <link rel="stylesheet" type="text/css" href="webjars/inspinia/css/plugins/daterangepicker/daterangepicker-bs3.css" />
+                
+        <!-- UI Grid -->
+        <link rel="stylesheet" type="text/css" href="webjars/angular-ui-grid/4.0.10/ui-grid.min.css" />
+		
+		<!-- Bootstrap Dialog -->
+        <link rel="stylesheet" type="text/css" href="webjars/bootstrap3-dialog/1.35.3/dist/css/bootstrap-dialog.min.css" />
+        
+        <!-- Angular Loading Bar -->
+        <link rel="stylesheet" href="/external/angular-loading-bar/loading-bar.min.css">
+        
+        <!-- Angular Wizard -->
+        <link rel="stylesheet" href="/external/angular-wizard/angular-wizard.min.css">
+        
+        <!-- Angular Cron Generator -->
+        <link rel="stylesheet" href="/external/angular-cron-gen/cron-gen.min.css">
+        
+        <!-- Bootstrap Dual List -->
+		<link rel="stylesheet" type="text/css" href="external/dual-list-bootstrap/bootstrap-duallistbox.min.css" />
+		
+		<!-- Ladda -->
+        <link rel="stylesheet" type="text/css" href="external/ladda/ladda-themeless.min.css">
+        
+		<!-- Flag Icon CSS -->
+		<link href="/external/flag-icon-css/assets/docs.css" rel="stylesheet">
+    	<link href="/external/flag-icon-css/css/flag-icon.css" rel="stylesheet">
+        
+        <link rel="stylesheet" type="text/css" href="webjars/inspinia/css/style.css" id="loadBefore" />
+        <link rel="stylesheet" type="text/css" href="styles/style.css" />
+    </head>
+    
+    <body class="top-navigation fixed-sidebar fixed-nav" style="background: white;">
+        <ui-view></ui-view>
+        
+        <!-- jQuery and Bootstrap -->
+        <script src="webjars/inspinia/js/jquery/jquery-2.1.1.min.js"></script>
+        <script src="webjars/inspinia/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+        <script src="webjars/inspinia/js/bootstrap/bootstrap.min.js"></script>
+
+		<!-- MetisMenu -->
+		<script src="webjars/inspinia/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+		
+		<!-- SlimScroll -->
+		<script src="webjars/inspinia/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+		
+		<!-- Pace -->
+        <script src="webjars/inspinia/js/plugins/pace/pace.min.js" data-pace-options='{ "ajax": false }'></script>
+
+        <!-- Inspinia -->
+        <script src="webjars/inspinia/js/inspinia.js"></script>
+
+        <!-- Angular -->
+        <script src="webjars/inspinia/js/angular/angular.min.js"></script>
+        <script src="webjars/inspinia/js/angular/angular-animate.min.js"></script>
+        <script src="webjars/inspinia/js/plugins/oclazyload/dist/ocLazyLoad.min.js"></script>
+        <script src="webjars/inspinia/js/ui-router/angular-ui-router.min.js"></script>
+        <script src="webjars/inspinia/js/bootstrap/ui-bootstrap-tpls-1.1.2.min.js"></script>
+        
+        <!-- AngularUI Router Grant -->
+        <script src="/external/angular-ui-router-grant/angular-ui-router-grant.min.js"></script>
+        
+        <!-- Angular Translate -->
+        <script src="webjars/inspinia/js/angular-translate/angular-translate.min.js"></script>
+        
+        <!-- AngularJS-Toaster -->
+        <script src="webjars/inspinia/js/plugins/toastr/toastr.min.js"></script>
+        
+        <!-- Angular Loading Bar -->
+        <script src="/external/angular-loading-bar/loading-bar.min.js"></script>
+        
+        <!-- Angular Wizard -->
+        <script src="/external/angular-wizard/angular-wizard.min.js"></script>
+        
+        <!-- Angular Cron Jobs -->
+        <script src="/external/angular-cron-gen/cron-gen.min.js"></script>
+        
+        <!-- Bootstrap UI date-time picker -->
+        <script src="/external/bootstrap-ui-datetime-picker/datetime-picker.min.js"></script>
+        
+        <!-- Underscore.JS -->
+        <script src="/external/underscore/underscore-min.js"></script>
+        
+        <!-- Bootstrap Dialog -->
+        <script src="webjars/bootstrap3-dialog/1.35.3/dist/js/bootstrap-dialog.min.js"></script>
+        
+        <!-- UI Grid -->
+        <script src="webjars/angular-ui-grid/4.0.10/ui-grid.min.js"></script>
+        
+        <!-- Moment -->
+        <script src="webjars/inspinia/js/plugins/moment/moment.min.js"></script>
+        
+        <!-- Date Picker -->
+        <script src="webjars/inspinia/js/plugins/datapicker/angular-datepicker.js"></script>
+        
+        <!-- DateRange Picker -->
+        <script src="webjars/inspinia/js/plugins/daterangepicker/daterangepicker.js"></script>
+        <script src="webjars/inspinia/js/plugins/daterangepicker/angular-daterangepicker.js"></script>
+        
+        <!-- ngStorage -->
+        <script src="webjars/ngstorage/0.3.11/ngStorage.min.js"></script>
+        
+        <!-- Angular Chosen -->
+        <script src="webjars/inspinia/js/plugins/chosen/chosen.jquery.js"></script>
+        <script src="webjars/inspinia/js/plugins/chosen/chosen.js"></script>
+        
+        <!-- iCheck -->
+        <script src="webjars/inspinia/js/plugins/iCheck/icheck.min.js"></script>
+        
+        <!-- Flot Charts -->
+        <script src="webjars/inspinia/js/plugins/flot/jquery.flot.js"></script>
+        <script src="webjars/inspinia/js/plugins/flot/jquery.flot.time.js"></script>
+        <script src="webjars/inspinia/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+        <script src="webjars/inspinia/js/plugins/flot/jquery.flot.spline.js"></script>
+        <script src="webjars/inspinia/js/plugins/flot/jquery.flot.resize.js"></script>
+        <script src="webjars/inspinia/js/plugins/flot/jquery.flot.pie.js"></script>
+        <script src="webjars/inspinia/js/plugins/flot/curvedLines.js"></script>
+        <script src="webjars/inspinia/js/plugins/flot/angular-flot.js"></script>
+        
+        <!-- Bootstrap Dual List -->
+        <script src="/external/dual-list-bootstrap/jquery.bootstrap-duallistbox.min.js"></script>
+        
+        <!-- Checklist model -->
+        <script src="/external/checklist-model/checklist-model.js"></script>
+     
+        <!-- Angular dual list -->
+        <script src="/external/dual-list/angular-bootstrap-duallistbox.min.js"></script>
+        
+        <!-- cRonstrue -->
+        <script src="/external/cRonstrue/cronstrue.min.js"></script>
+        <script>
+  			var cronstrue = window.cronstrue;
+		</script>
+		
+		<!-- Ladda -->
+        <script src="/external/ladda/spin.min.js"></script>
+        <script src="/external/ladda/ladda.min.js"></script>
+        <script src="/external/ladda/angular-ladda.min.js"></script>
+        
+        <!-- Angular Idle -->
+        <script src="/external/angular-idle/angular-idle.min.js"></script>
+        
+        <!-- SockJS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+                
+        <!-- StompJs -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+        
+        <!-- Chat -->
+        <script src="/common/scripts/app.js"></script>
+        <script src="/common/scripts/config.js"></script>
+        <script src="/common/scripts/directives.js"></script>
+        <script src="/common/scripts/controllers.js"></script>
+        <script src="/common/scripts/translations.js"></script>
+    </body>
+    
+    <toaster-container toaster-options="{ 'time-out': 10000, 'close-button': true, 'animation-class': 'toast-top-right' }"></toaster-container>
+    
+</html>

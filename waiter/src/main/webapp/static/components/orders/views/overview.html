@@ -1,0 +1,103 @@
+<style>
+
+.chosen-container-single {
+	width: 100% !important;
+	font-size: 18px;
+}
+.chosen-container-single .chosen-single {
+	border: 1px solid #e5e6e7;  
+}
+
+.chosen-container .chosen-results li.active-result {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.order-row {
+	font-size: 18px;
+}
+
+.order-row-bold {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.order-btn {
+	width: 60px;
+	height: 60px;
+}
+
+.ui-grid-header-cell-label {
+	font-size: 18px;
+}
+
+.order-ui-grid-cell-contents {
+	padding-top: 14px;
+	font-size: 18px;
+	height: 50px;
+}
+
+.order-status-badge {
+	font-size: 18px;
+}
+
+</style>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="row m-b-sm" style="margin-right: 15px !important; margin-left: 0px !important;">
+		<div class="col-lg-7 col-md-7 col-sm-7">
+			<div class="input-group">
+				<select chosen ng-change="filterChanged()" class="form-control" ng-model="selectedStatus" disable-search="true" data-placeholder-text-single="'Filtriraj po statusu...'" options="statuses" ng-options="status.label for status in statuses track by status.value">
+					<option value=""></option>
+				</select>
+				<span class="input-group-addon no-padding">
+					<button ng-click="filterReset()" type="button" class="btn btn-white" style="border: none;"><span class="fa fa-times"></span></button>
+				</span>
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-3 col-sm-3">
+		
+		</div>
+		<div class="col-lg-2 col-md-2 col-sm-2" style="text-align: right; padding-right: 0px;">
+			<button ng-click="logout()" type="button" class="btn btn-white" style="font-size: 18px; padding-top: 4px; padding-bottom: 3px;">
+				<span class="fa fa-sign-out"></span> {{ 'BTN_LOGOUT' | translate }}
+			</button>
+		</div>  
+	</div>
+	
+	<div class="row" style="margin-right: 15px !important; margin-left: 0px !important;">
+		<div class="col-lg-7 col-md-7 col-sm-7">
+			<div ui-grid="gridOptions" ui-grid-auto-resize ui-grid-selection class="grid"></div>
+		</div>
+		<div class="col-lg-5 col-md-5 col-sm-5" style="border: 1px solid #d4d4d4;" ng-show="selectedOrder">
+			 <div class="row" style="font-size: 20px; font-weight: bold; border-bottom: 1px solid #d4d4d4; padding-top: 4px; padding-bottom: 4px; background: #f8f8f8; height: 36px;">
+			 	<div class="col-lg-6 col-md-6 col-sm-6">{{ 'LBL_ORDER' | translate }} {{ selectedOrder.id }}</div>
+			 	<div class="col-lg-6 col-md-6 col-sm-6" style="text-align: right;">{{ 'LBL_TABLE' | translate }} {{ selectedOrder.table.identifier }}</div>
+			 </div>
+			 <div class="row order-row-bold" style="padding-top: 10px; padding-bottom: 5px; margin-left: 3px; margin-right: 3px; border-bottom: 1px solid #f0f0f0;">
+			 	<div class="col-lg-6 col-md-6 col-sm-6">{{ 'COLUMN_ITEM_NAME' | translate }}</div>
+			 	<div class="col-lg-2 col-md-2 col-sm-2" style="text-align: right;">{{ 'COLUMN_ITEM_UNIT_PRICE' | translate }}</div>
+			 	<div class="col-lg-2 col-md-2 col-sm-2" style="text-align: right;">{{ 'COLUMN_ITEM_QUANTITY' | translate }}</div>
+			 	<div class="col-lg-2 col-md-2 col-sm-2" style="text-align: right;">{{ 'COLUMN_ITEM_TOTAL_PRICE' | translate }}</div>
+			 </div> 
+			 <div ng-repeat="item in selectedOrder.items" class="row order-row" style="padding-top: 5px; padding-bottom: 5px; margin-left: 3px; margin-right: 3px;">
+			 	<div class="col-lg-6 col-md-6 col-sm-6">{{ item.item.name }}</div>
+			 	<div class="col-lg-2 col-md-2 col-sm-2" style="text-align: right;">{{  item.item.price | currency : "" : 2 }}</div>
+			 	<div class="col-lg-2 col-md-2 col-sm-2" style="text-align: right;">{{ item.quantity }}</div>
+			 	<div class="col-lg-2 col-md-2 col-sm-2" style="text-align: right;">{{ (item.quantity * item.item.price) | currency : "" : 2 }}</div>
+			 </div>   
+			 <div class="row order-row-bold" style="padding-top: 5px; padding-bottom: 5px; margin-left: 3px; margin-right: 3px; border-top: 1px solid #f0f0f0;">
+			 	<div class="col-lg-10 col-md-10 col-sm-10"></div>
+			 	<div class="col-lg-2 col-md-2 col-sm-2" style="text-align: right;">{{ selectedOrder.totalAmount | currency : "" : 2 }}</div>
+			 </div>
+			 <div class="row" style="padding-top: 10px; padding-bottom: 5px; margin-left: 3px; margin-right: 3px; border-bottom: 1px solid #f0f0f0;">
+			 	<div class="col-lg-12 col-md-12 col-sm-12" style="text-align: center;">
+			 		<button ng-click="cancelOrder()" type="button" class="btn btn-danger order-btn"><span class="fa fa-2x fa-times"></span></button>
+			 		<button ng-click="closeOrder()" type="button" class="btn btn-primary order-btn m-l-lg"><span class="fa fa-2x fa-check"></span></button>
+			 	</div>
+			 </div> 
+        </div>
+	</div>
+</div>
+
+<div ng-include="'/common/views/footer.html'"></div>

@@ -1,0 +1,318 @@
+<style>
+.tabs-container .nav-tabs > li.active > a, .tabs-container .nav-tabs > li.active > a:hover, .tabs-container .nav-tabs > li.active > a:focus {
+    color: #676a6c;
+    background-color: #fff;
+}
+
+.tabs-container .nav-tabs > li > a {
+    color: #c0c0c0;
+}
+
+.tabs-container .nav-tabs > li > a:hover {
+    color: #909090;
+}
+.tabs-container .nav-tabs > li.active > a {
+    color: #676a6c;
+}
+.chosen-container-single {
+	width: 100% !important;
+}
+.chosen-container-single .chosen-single {
+	border: 1px solid #e5e6e7;  
+}
+
+.category-input {
+	font-size: 16px;
+	font-weight: bold;
+}
+</style>
+
+<script type="text/ng-template" id="order-exp.html">
+    <div class="app-grid-extension form-horizontal">
+        <div class="col-lg-12 col-md-12 col-sm-12 p-xs">
+			<div class="row m-b-xs" style="font-weight: bold;">
+				<div class="col-lg-6 col-md-6 col-sm-6">{{ 'TOOLTIP_ITEM_NAME' | translate }}</div>
+				<div class="col-lg-2 col-md-2 col-sm-2" style="text-align: right;">{{ 'COLUMN_ITEM_UNIT_PRICE' | translate }}</div>
+				<div class="col-lg-2 col-md-2 col-sm-2" style="text-align: right;">{{ 'TOOLTIP_ITEM_UNIT' | translate }}</div>				
+				<div class="col-lg-2 col-md-2 col-sm-2" style="text-align: right;">{{ 'COLUMN_ITEM_TOTAL_PRICE' | translate }}</div>
+			</div>
+			<div ng-repeat="item in row.entity.items" class="row m-b-xs">
+				<div class="col-lg-6 col-md-6 col-sm-6">{{ item.item.name }}</div>
+				<div class="col-lg-2 col-md-2 col-sm-2" style="text-align: right;">{{  item.item.price | currency : "" : 2 }}</div>
+				<div class="col-lg-2 col-md-2 col-sm-2" style="text-align: right;">{{ item.quantity }}</div>				
+				<div class="col-lg-2 col-md-2 col-sm-2" style="text-align: right;">{{ (item.quantity * item.item.price) | currency : "" : 2 }}</div>
+			</div>
+			<div class="row m-b-xs" style="border-top: 1px solid #f0f0f0;">
+				<div class="col-lg-10 col-md-10 col-sm-10"></div>
+				<div class="col-lg-2 col-md-2 col-sm-2" style="text-align: right;">{{ row.entity.totalAmount | currency : "" : 2 }}</div>
+			</div>
+        </div>
+    </div>
+</script>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="row border-bottom">
+        <div class="col-lg-8 col-md-8 col-sm-8">
+            <h1 class="m-t-xxs" ng-if="entityId == 0">{{ 'HDR_USERS_ADD' | translate }}</h1>
+            <h1 class="m-t-xxs" ng-if="entityId != 0">{{ 'HDR_USERS_EDIT' | translate }}</h1>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4" style="text-align: right;">
+        	<button ng-click="back()" class="btn btn-white m-r-sm"><i class="fa fa-angle-double-left"></i> {{ 'BTN_BACK' | translate }}</button>
+            <button ng-click="saveEntity()" ng-disabled="form.$invalid" class="btn btn-primary"><i class="fa fa-save"></i> {{ 'BTN_SAVE' | translate }}</button>
+        </div>
+    </div>
+    
+		<div class="row m-t-md">
+	        
+	        <form name="form" class="form-horizontal ng-pristine ng-valid" novalidate>
+		        <div class="col-lg-4 col-md-4 col-sm-4">
+	                <div class="form-group">
+	                    <label class="col-lg-4 col-md-4 col-sm-4 control-label">{{ 'LBL_USERNAME' | translate }} <i style="width: 10px;" ng-class="{ 'fa fa-exclamation-circle m-l-xs app-invalid' : form.username.$invalid, 'fa fa-check-circle m-l-xs app-valid' : form.username.$valid }"></i></label>
+	                    <div class="col-lg-8 col-md-8 col-sm-8">
+	                        <input ng-model="entity.username" type="text" class="form-control" name="username" ng-required="true" maxlength="128" />
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="col-lg-4 col-md-4 col-sm-4 control-label">{{ 'LBL_PASSWORD' | translate }} <i ng-if="entity != null && entity.id == null" style="width: 10px;" ng-class="{ 'fa fa-exclamation-circle m-l-xs app-invalid' : form.password.$invalid, 'fa fa-check-circle m-l-xs app-valid' : form.password.$valid }"></i></label>
+	                    <div class="col-lg-8 col-md-8 col-sm-8">
+	                        <input ng-model="entity.password" type="password" class="form-control" name="password" ng-required="entity != null && entity.id == null" maxlength="128" />
+	                    </div>
+	                </div>
+	                <div class="form-group" ng-show="entity != null && entity.id != null">
+	                    <label class="col-lg-4 col-md-4 col-sm-4 control-label">{{ 'LBL_STATUS' | translate }}</label>
+	                    <div class="col-lg-8 col-md-8 col-sm-8">
+	                    	<select chosen ng-model="entity.status" class="form-control" name="status">
+							  	<option value="ACTIVE">{{ 'ENUM_STATUS_ACTIVE' | translate }}</option>
+							  	<option value="INACTIVE">{{ 'ENUM_STATUS_INACTIVE' | translate }}</option>
+							</select>
+	                    </div>
+	                </div>
+	                <div class="form-group" ng-if="entity != null && entity.id != null">
+	                    <label class="col-lg-4 col-md-4 col-sm-4 control-label">{{ 'LBL_CREATION_DATE' | translate }}</label>
+	                    <div class="col-lg-8 col-md-8 col-sm-8">
+	                        <span class="form-control">{{ entity.creationDate | date : dateTimeFormat }}</span>
+	                    </div>
+	                </div>
+	                <div class="form-group" ng-if="entity != null && entity.id != null">
+	                    <label class="col-lg-4 col-md-4 col-sm-4 control-label">{{ 'LBL_LAST_MODIFIED_DATE' | translate }}</label>
+	                    <div class="col-lg-8 col-md-8 col-sm-8">
+	                        <span class="form-control">{{ entity.lastModifiedDate | date : dateTimeFormat }}</span>
+	                    </div>
+	                </div>
+		        </div>
+	        </form>
+	        
+	        <div class="col-lg-8 col-md-8 col-sm-8">
+	        	<div class="tabs-container">
+	        		<uib-tabset>
+	        			<uib-tab> 
+	                        <uib-tab-heading>{{ 'TAB_CUSTOMER_DATA' | translate }}</uib-tab-heading>
+	                        <div class="panel-body form-horizontal">
+	                        	<div class="form-group">
+				                    <label class="col-lg-2 col-md-2 col-sm-2 control-label">{{ 'LBL_NAME' | translate }}</label>
+				                    <div class="col-lg-10 col-md-10 col-sm-10">
+				                        <input ng-model="entity.name" type="text" class="form-control" name="name" maxlength="256" />
+				                    </div>
+				                </div>
+				                <div class="form-group">
+				                    <label class="col-lg-2 col-md-2 col-sm-2 control-label">{{ 'LBL_ADDRESS' | translate }}</label>
+				                    <div class="col-lg-10 col-md-10 col-sm-10">
+				                        <input ng-model="entity.address" type="text" class="form-control" name="address" maxlength="512" />
+				                    </div>
+				                </div>
+				                <div class="form-group">
+				                    <label class="col-lg-2 col-md-2 col-sm-2 control-label">{{ 'LBL_CITY' | translate }}</label>
+				                    <div class="col-lg-10 col-md-10 col-sm-10">
+				                    	<select chosen class="form-control" name="city" ng-model="entity.city" data-placeholder-text-single="'Please select city'" options="users" ng-options="city.name for city in cities track by city.id"></select>
+				                    </div>
+				                </div>
+				                <div class="form-group">
+				                    <label class="col-lg-2 col-md-2 col-sm-2 control-label">{{ 'LBL_PHONE' | translate }}</label>
+				                    <div class="col-lg-10 col-md-10 col-sm-10">
+				                        <input ng-model="entity.phone" type="text" class="form-control" name="phone" maxlength="128" />
+				                    </div>
+				                </div>
+				                <div class="form-group">
+				                    <label class="col-lg-2 col-md-2 col-sm-2 control-label">{{ 'LBL_MOBILE' | translate }}</label>
+				                    <div class="col-lg-10 col-md-10 col-sm-10">
+				                        <input ng-model="entity.mobile" type="text" class="form-control" name="mobile" maxlength="128" />
+				                    </div>
+				                </div>
+				                <div class="form-group">
+				                    <label class="col-lg-2 col-md-2 col-sm-2 control-label">{{ 'LBL_EMAIL' | translate }}</label>
+				                    <div class="col-lg-10 col-md-10 col-sm-10">
+				                        <input ng-model="entity.email" type="text" class="form-control" name="email" maxlength="256" />
+				                    </div>
+				                </div>
+				                <div class="form-group">
+				                    <label class="col-lg-2 col-md-2 col-sm-2 control-label">{{ 'LBL_WIFI_NAME' | translate }}</label>
+				                    <div class="col-lg-10 col-md-10 col-sm-10">
+				                        <input ng-model="entity.wifiName" type="text" class="form-control" name="wifiName" maxlength="128" />
+				                    </div>
+				                </div>
+				                <div class="form-group">
+				                    <label class="col-lg-2 col-md-2 col-sm-2 control-label">{{ 'LBL_WIFI_PASSWORD' | translate }}</label>
+				                    <div class="col-lg-10 col-md-10 col-sm-10">
+				                        <input ng-model="entity.wifiPassword" type="text" class="form-control" name="wifiPassword" maxlength="128" />
+				                    </div>
+				                </div>
+				                <div class="form-group">
+				                    <label class="col-lg-2 col-md-2 col-sm-2 control-label">{{ 'LBL_NOTES' | translate }}</label>
+				                    <div class="col-lg-10 col-md-10 col-sm-10">
+				                        <textarea ng-model="entity.notes" class="form-control" name="notes" rows="8" style="resize: none;"></textarea>
+				                    </div>
+				                </div>	  
+	                        </div>
+	                    </uib-tab>
+	                    <uib-tab> 
+	                        <uib-tab-heading>{{ 'TAB_TABLES' | translate }}</uib-tab-heading>
+	                        <div class="panel-body" style="padding-left: 30px; padding-right: 30px;">
+	                            
+	                            <div class="row" ng-if="!entity.tables || entity.tables.length == 0">
+				                    <div class="col-lg-12 col-md-12 col-sm-12" style="padding: 20px; border: 1px solid #f0f0f0; background: #fbfbfb;">
+				                        <div class="row">
+					                        <div class="col-lg-10 col-md-10 col-sm-10"></div>
+					                        <div class="col-lg-2 col-md-2 col-sm-2" style="padding-right: 5px; text-align: right;">
+					                            <button type="button" ng-click="addTable(0)" class="btn btn-white" uib-tooltip="{{ 'TOOLTIP_ADD_TABLE' | translate }}" tooltip-append-to-body="true">
+					                                <i class="fa fa-plus"></i>
+					                            </button>
+					                        </div>
+				                        </div>
+				                    </div>
+				                </div>
+				                
+				                <div class="row" ng-if="entity.tables.length > 0">
+				                    <div ng-repeat="table in entity.tables" class="col-lg-12 col-md-12 col-sm-12 m-b-md" style="padding: 20px; border: 1px solid #f0f0f0; background: #fbfbfb;">
+				                        <div class="row">
+					                        <div class="col-lg-2 col-md-2 col-sm-2" style="padding-left: 10px; padding-right: 0px;">
+					                            <input ng-model="table.identifier" maxlength="32" type="text" class="form-control" placeholder="{{ 'TOOLTIP_TABLE_IDENITIFER' | translate }}" uib-tooltip="{{ 'TOOLTIP_TABLE_IDENITIFER' | translate }}" tooltip-append-to-body="true" />
+					                        </div>
+					                        <div class="col-lg-7 col-md-7 col-sm-7" style="padding-left: 10px; padding-right: 0px;">
+					                            <input ng-model="table.description" type="text" class="form-control" placeholder="{{ 'TOOLTIP_TABLE_DESCRIPTION' | translate }}" uib-tooltip="{{ 'TOOLTIP_TABLE_DESCRIPTION' | translate }}" tooltip-append-to-body="true" />
+					                        </div>
+					                        <div class="col-lg-1 col-md-1 col-sm-1" >
+					                        	<img ng-click="showQR(table.qrCode)" ng-show="table.qrCode" ng-src="data:image/PNG;base64,{{table.qrCode}}" width="34" style="border: 1px solid #e5e6e7; cursor: pointer;" uib-tooltip="{{ 'TOOLTIP_QR_CODE' | translate }}" tooltip-append-to-body="true">
+					                        </div>
+					                        <div class="col-lg-2 col-md-2 col-sm-2" style="padding-right: 5px; text-align: right;">
+					                            <button type="button" ng-click="removeTable($index)" class="btn btn-white" uib-tooltip="{{ 'TOOLTIP_DELETE_TABLE' | translate }}" tooltip-append-to-body="true">
+					                                <i class="fa fa-minus"></i>
+					                            </button>
+					                            <button type="button" ng-click="addTable($index)" class="btn btn-white m-l-xxs" uib-tooltip="{{ 'TOOLTIP_ADD_TABLE' | translate }}" tooltip-append-to-body="true">
+					                                <i class="fa fa-plus"></i>
+					                            </button>
+					                        </div>
+				                        </div>
+				                    </div>
+				                </div>
+				                
+	                        </div>
+	                    </uib-tab>
+	                    <uib-tab> 
+	                        <uib-tab-heading>{{ 'TAB_MENU' | translate }}</uib-tab-heading>
+	                        <div class="panel-body" style="padding-left: 30px; padding-right: 30px;">
+	                            
+	                            <div class="row m-b-md">
+	                            	<div class="col-lg-12 col-md-12 col-sm-12" style="padding-left: 0px; padding-right: 0px;">
+	                            		<textarea ng-model="entity.menuNotes" placeholder="{{ 'TOOLTIP_MENU_INFO' | translate }}" class="form-control" name="notes" rows="4" style="resize: none;"></textarea>
+	                            	</div>
+	                            </div>
+	                            
+	                            <div class="row" ng-if="!entity.categories || entity.categories.length == 0">
+				                    <div class="col-lg-12 col-md-12 col-sm-12" style="padding: 20px; border: 1px solid #f0f0f0; background: #fbfbfb;">
+				                        <div class="row">
+					                        <div class="col-lg-10 col-md-10 col-sm-10"></div>
+					                        <div class="col-lg-2 col-md-2 col-sm-2" style="padding-right: 5px; text-align: right;">
+					                            <button type="button" ng-click="addMenuCategory(0)" class="btn btn-white" uib-tooltip="{{ 'TOOLTIP_ADD_CATEGORY' | translate }}" tooltip-append-to-body="true">
+					                                <i class="fa fa-plus"></i>
+					                            </button>
+					                        </div>
+				                        </div>
+				                    </div>
+				                </div>
+				                
+				                <div class="row" ng-if="entity.categories.length > 0">
+				                    <div ng-repeat="category in entity.categories" class="col-lg-12 col-md-12 col-sm-12 m-b-md" style="padding: 20px; border: 1px solid #f0f0f0; background: #fbfbfb;">
+				                        <div class="row">
+					                        <div class="col-lg-10 col-md-10 col-sm-10" style="padding-left: 10px; padding-right: 0px;">
+					                            <input ng-model="category.name" maxlength="512" type="text" class="form-control category-input" placeholder="{{ 'TOOLTIP_CATEGORY_NAME' | translate }}" uib-tooltip="{{ 'TOOLTIP_CATEGORY_NAME' | translate }}" tooltip-append-to-body="true" />
+					                        </div>
+					                        <div class="col-lg-2 col-md-2 col-sm-2" style="padding-right: 5px; text-align: right;">
+					                            <button type="button" ng-click="removeMenuCategory($index)" class="btn btn-white" uib-tooltip="{{ 'TOOLTIP_DELETE_CATEGORY' | translate }}" tooltip-append-to-body="true">
+					                                <i class="fa fa-minus"></i>
+					                            </button>
+					                            <button type="button" ng-click="addMenuCategory($index)" class="btn btn-white m-l-xxs" uib-tooltip="{{ 'TOOLTIP_ADD_CATEGORY' | translate }}" tooltip-append-to-body="true">
+					                                <i class="fa fa-plus"></i>
+					                            </button>
+					                        </div>
+				                        </div>
+				                        
+				                        <div class="row m-t-sm" style="padding-left: 0px; padding-right: 0px;">
+				                        	<div class="col-lg-10 col-md-10 col-sm-10">
+				                        		<div class="row" ng-if="!category.items || category.items.length == 0">
+							                        <div class="col-lg-10 col-md-10 col-sm-10"></div>
+							                        <div class="col-lg-2 col-md-2 col-sm-2" style="text-align: right; padding-right: 0px;">
+							                            <button type="button" ng-click="addMenuItem(category, 0)" class="btn btn-white" uib-tooltip="{{ 'TOOLTIP_ADD_ITEM' | translate }}" tooltip-append-to-body="true">
+							                                <i class="fa fa-plus"></i>
+							                            </button>
+							                        </div>
+								                </div>
+								                
+								                <div class="row" ng-if="category.items.length > 0">
+								                	<div ng-repeat="item in category.items" class="col-lg-12 col-md-12 col-sm-12 m-b-sm">
+								                		<div class="row">
+															<div class="col-lg-6 col-md-6 col-sm-6" style="padding-left: 10px; padding-right: 0px;">
+									                            <input ng-model="item.name" maxlength="512" type="text" class="form-control" placeholder="{{ 'TOOLTIP_ITEM_NAME' | translate }}" uib-tooltip="{{ 'TOOLTIP_ITEM_NAME' | translate }}" tooltip-append-to-body="true" />
+									                        </div>
+									                        <div class="col-lg-2 col-md-2 col-sm-2" style="padding-left: 10px; padding-right: 0px;">
+									                            <input ng-model="item.unit" maxlength="256" type="text" class="form-control" placeholder="{{ 'TOOLTIP_ITEM_UNIT' | translate }}" uib-tooltip="{{ 'TOOLTIP_ITEM_UNIT' | translate }}" tooltip-append-to-body="true" />
+									                        </div>
+									                        <div class="col-lg-2 col-md-2 col-sm-2" style="padding-left: 10px; padding-right: 0px;">
+									                            <input ng-model="item.price" type="text" parse-float style="text-align: right;" class="form-control" placeholder="{{ 'TOOLTIP_ITEM_PRICE' | translate }}" uib-tooltip="{{ 'TOOLTIP_ITEM_PRICE' | translate }}" tooltip-append-to-body="true" />
+									                        </div>
+															<div class="col-lg-2 col-md-2 col-sm-2" style="padding-right: 0px; text-align: right;">
+									                            <button type="button" ng-click="removeMenuItem(category, $index)" class="btn btn-white" uib-tooltip="{{ 'TOOLTIP_DELETE_ITEM' | translate }}" tooltip-append-to-body="true">
+									                                <i class="fa fa-minus"></i>
+									                            </button>
+									                            <button type="button" ng-click="addMenuItem(category, $index)" class="btn btn-white" uib-tooltip="{{ 'TOOLTIP_ADD_ITEM' | translate }}" tooltip-append-to-body="true">
+									                                <i class="fa fa-plus"></i>
+									                            </button>
+									                        </div>
+								                        </div>
+								                	</div>
+								                </div>
+				                        	</div>
+				                        </div>
+				                        
+				                    </div>
+				                </div>
+	                        </div>
+	                    </uib-tab>
+	                    <uib-tab> 
+	                        <uib-tab-heading>{{ 'TAB_ORDERS' | translate }}</uib-tab-heading>
+	                        <div class="panel-body">
+	                        	<div style="text-align: right;">
+		                            <button type="button" ng-click="refresh()" class="btn btn-sm btn-white" uib-tooltip="{{ 'TOOLTIP_REFRESH' | translate }}" tooltip-append-to-body="true">
+		                                <i class="fa fa-refresh"></i>
+		                            </button>
+	                            </div>
+	                            <div ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-save-state ui-grid-expandable class="grid m-t-xs m-b-xs">
+					                <div class="grid-msg-overlay" ng-hide="!loading">
+					                    <div class="msg">
+					                        <span>{{ 'LBL_LOADING_DATA' | translate }} <i class="fa fa-spinner fa-spin"></i></span>
+					                    </div>
+					                </div>
+					                <div class="grid-msg-overlay" ng-hide="loading || gridOptions.data.length">
+					                    <div class="msg">
+					                        <span>{{ 'LBL_NO_DATA' | translate }}</span>
+					                    </div>
+					                </div>
+					            </div>
+	                        </div>
+	                    </uib-tab>
+	        		</uib-tabset>
+	        	</div>
+	        </div>
+	        
+	    </div>
+	    
+</div>
